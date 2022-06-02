@@ -1215,6 +1215,7 @@ BUILD_ASSERT(DT_INST_NODE_HAS_PROP(0, sfdp_bfp),
 	     "jedec,spi-nor sfdp-bfp required for devicetree SFDP");
 
 static const __aligned(4) uint8_t bfp_data_0[] = DT_INST_PROP(0, sfdp_bfp);
+static const __aligned(4) uint8_t bfp_data_1[] = DT_INST_PROP(1, sfdp_bfp);
 #endif /* CONFIG_SPI_NOR_SFDP_DEVICETREE */
 
 #endif /* CONFIG_SPI_NOR_SFDP_RUNTIME */
@@ -1258,9 +1259,46 @@ static const struct spi_nor_config spi_nor_config_0 = {
 #endif /* CONFIG_SPI_NOR_SFDP_RUNTIME */
 };
 
+static const struct spi_nor_config spi_nor_config_1 = {
+	.spi = SPI_DT_SPEC_INST_GET(1, SPI_WORD_SET(8),
+				    CONFIG_SPI_NOR_CS_WAIT_DELAY),
+#if !defined(CONFIG_SPI_NOR_SFDP_RUNTIME)
+
+#if defined(CONFIG_FLASH_PAGE_LAYOUT)
+	.layout = {
+		.pages_count = LAYOUT_PAGES_COUNT,
+		.pages_size = CONFIG_SPI_NOR_FLASH_LAYOUT_PAGE_SIZE,
+	},
+#undef LAYOUT_PAGES_COUNT
+#endif /* CONFIG_FLASH_PAGE_LAYOUT */
+
+	.flash_size = DT_INST_PROP(1, size) / 8,
+	.jedec_id = DT_INST_PROP(1, jedec_id),
+
+#if DT_INST_NODE_HAS_PROP(1, has_lock)
+	.has_lock = DT_INST_PROP(1, has_lock),
+#endif
+#if defined(CONFIG_SPI_NOR_SFDP_MINIMAL)		\
+	&& DT_INST_NODE_HAS_PROP(1, enter_4byte_addr)
+	.enter_4byte_addr = DT_INST_PROP(1, enter_4byte_addr),
+#endif
+#ifdef CONFIG_SPI_NOR_SFDP_DEVICETREE
+	.bfp_len = sizeof(bfp_data_1) / 4,
+	.bfp = (const struct jesd216_bfp *)bfp_data_1,
+#endif /* CONFIG_SPI_NOR_SFDP_DEVICETREE */
+
+#endif /* CONFIG_SPI_NOR_SFDP_RUNTIME */
+};
+
 static struct spi_nor_data spi_nor_data_0;
+static struct spi_nor_data spi_nor_data_1;
 
 DEVICE_DT_INST_DEFINE(0, &spi_nor_init, NULL,
 		 &spi_nor_data_0, &spi_nor_config_0,
+		 POST_KERNEL, CONFIG_SPI_NOR_INIT_PRIORITY,
+		 &spi_nor_api);
+
+DEVICE_DT_INST_DEFINE(1, &spi_nor_init, NULL,
+		 &spi_nor_data_1, &spi_nor_config_1,
 		 POST_KERNEL, CONFIG_SPI_NOR_INIT_PRIORITY,
 		 &spi_nor_api);
