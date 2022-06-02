@@ -137,7 +137,13 @@ static int stm32_temp_init(const struct device *dev)
 		.buffer = &data->sample_buffer,
 		.buffer_size = sizeof(data->sample_buffer),
 		.resolution = 12,
+
+	#if !defined(CONFIG_SOC_SERIES_STM32F7X)
 		.calibrate = true,
+	#else
+		.calibrate = false,
+	#endif
+		
 	};
 
 	return 0;
