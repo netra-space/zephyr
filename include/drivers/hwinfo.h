@@ -30,21 +30,21 @@
 extern "C" {
 #endif
 
-#define RESET_PIN				BIT(0)
-#define RESET_SOFTWARE				BIT(1)
-#define RESET_BROWNOUT				BIT(2)
-#define RESET_POR				BIT(3)
-#define RESET_WATCHDOG				BIT(4)
-#define RESET_DEBUG				BIT(5)
-#define RESET_SECURITY				BIT(6)
-#define RESET_LOW_POWER_WAKE			BIT(7)
-#define RESET_CPU_LOCKUP			BIT(8)
-#define RESET_PARITY				BIT(9)
-#define RESET_PLL				BIT(10)
-#define RESET_CLOCK				BIT(11)
-#define RESET_HARDWARE				BIT(12)
-#define RESET_USER				BIT(13)
-#define RESET_TEMPERATURE			BIT(14)
+#define RESET_PIN             BIT(0)
+#define RESET_SOFTWARE        BIT(1)
+#define RESET_BROWNOUT        BIT(2)
+#define RESET_POR             BIT(3)
+#define RESET_WATCHDOG        BIT(4)
+#define RESET_DEBUG           BIT(5)
+#define RESET_SECURITY        BIT(6)
+#define RESET_LOW_POWER_WAKE  BIT(7)
+#define RESET_CPU_LOCKUP      BIT(8)
+#define RESET_PARITY          BIT(9)
+#define RESET_PLL             BIT(10)
+#define RESET_CLOCK           BIT(11)
+#define RESET_HARDWARE        BIT(12)
+#define RESET_USER            BIT(13)
+#define RESET_TEMPERATURE     BIT(14)
 
 /**
  * @brief Copy the device id to a buffer

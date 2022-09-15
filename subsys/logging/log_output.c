@@ -221,9 +221,20 @@ static int timestamp_print(const struct log_output *output,
 					hours, mins, seconds, ms * 1000U + us);
 #endif
 		} else {
-			length = print_formatted(output,
-						 "[%02u:%02u:%02u.%03u,%03u] ",
-						 hours, mins, seconds, ms, us);
+			struct tm tm;
+			gmtime_r(&timestamp, &tm);
+
+			length = print_formatted(output, "[%d-%02u-%02u %02u:%02u:%02u] ",
+			                         tm.tm_year + 1900, 
+									 tm.tm_mon + 1, 
+									 tm.tm_mday, 
+									 tm.tm_hour, 
+									 tm.tm_min, 
+									 tm.tm_sec);
+
+			// length = print_formatted(output,
+			// 			 "[%02u:%02u:%02u.%03u,%03u] ",
+			// 			 hours, mins, seconds, ms, us);
 		}
 	} else {
 		length = 0;
