@@ -222,7 +222,7 @@ static int timestamp_print(const struct log_output *output,
 #endif
 		} else {
 			struct tm tm;
-			gmtime_r(&timestamp, &tm);
+			gmtime_r((const time_t *)&timestamp, &tm);
 
 			length = print_formatted(output, "[%d-%02u-%02u %02u:%02u:%02u] ",
 			                         tm.tm_year + 1900, 
